@@ -1,0 +1,120 @@
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimization ("unroll-loops")
+
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define pii pair<int,int>
+#define pli pair<long long int,int>
+#define pbi pair<bool,int>
+#define pob pop_back
+#define all(a) a.begin(),a.end()
+#define fio ios_base::sync_with_stdio(false); cin.tie(0);cout.tie(0);
+#define i64 long long int
+#define mem(x,y) memset(x,y,sizeof(x))
+#define fill(arr,b) fill(arr, arr+sizeof(arr)/sizeof(arr[0]), b)
+#define maxarr(n,arr,m) m =-1e9;for(int i=0;i<n;i++)if(arr[i]>m) m=arr[i];
+#define read freopen("input.txt","r",stdin);
+
+const double pi = acos(-1.0);
+const int maxn = (i64)1e9+7;
+
+char a[3][3];
+char chk()
+{
+    if(a[0][0]==a[0][1] && a[0][1]==a[0][2] && (a[0][0]=='X'||a[0][0]=='O')) return a[0][0];
+    if(a[1][0]==a[1][1] && a[1][1]==a[1][2] && (a[1][0]=='X'||a[1][0]=='O')) return a[1][0];
+    if(a[2][0]==a[2][1] && a[2][1]==a[2][2] && (a[2][0]=='X'||a[2][0]=='O')) return a[2][0];
+
+    if(a[0][0]==a[1][0] && a[1][0]==a[2][0] && (a[0][0]=='X'||a[0][0]=='O')) return a[0][0];
+    if(a[0][1]==a[1][1] && a[1][1]==a[2][1] && (a[0][1]=='X'||a[0][1]=='O')) return a[0][1];
+    if(a[0][2]==a[1][2] && a[1][2]==a[2][2] && (a[0][2]=='X'||a[0][2]=='O')) return a[0][2];
+
+    if(a[0][0]==a[1][1] && a[1][1]==a[2][2] && (a[0][0]=='X'||a[0][0]=='O')) return a[0][0];
+    if(a[0][2]==a[1][1] && a[1][1]==a[2][0] && (a[0][2]=='X'||a[0][2]=='O')) return a[1][1];
+
+    return 'C';
+}
+void init()
+{
+    for(int i=0;i<3;i++)
+        for(int j=0;j<3;j++) a[i][j]='\0';
+}
+int main()
+{
+    //read;
+    printf("Player X: X\n");
+    printf("Player O: O\n");
+    printf("Rules of The game: \n");
+    printf("\nYou have to input the coordinates starting index with 1. i.e 1 1 means 1st row and 1st column.\n");
+
+    printf("\nPress 1 to start the game and 0 then enter to exit: ");
+    bool b,game,x=true;
+    scanf("%d",&game);
+    if(!game) return 0;
+    int cnt=0;
+    while(game)
+    {
+        printf("\n\n");
+        printf("%c | %c | %c\n",a[0][0],a[0][1],a[0][2]);
+        printf("---------\n");
+        printf("%c | %c | %c\n",a[1][0],a[1][1],a[1][2]);
+        printf("---------\n");
+        printf("%c | %c | %c\n",a[2][0],a[2][1],a[2][2]);
+        printf("\n\n");
+
+        if(chk()!='C')
+        {
+            cnt=0;
+            printf("\nCongratularions Player %c. You have win the game.\n",chk());
+            printf("If you want to play again press 1 and press 0 to quit: ");
+            scanf("%d",&game);
+            if(game) {init();continue;}
+            else return 0;
+        }
+        else if(cnt==9)
+        {
+            cnt=0;
+            printf("\nOops! it's a tie. \n");
+            printf("If you want to play again press 1 and press 0 to quit: ");
+            scanf("%d",&game);
+            if(game) {init();continue;}
+            else return 0;
+        }
+        else
+        {
+            if(x)
+            {
+                printf("Player X's turn: \n");
+                printf("Enter Row and Column no: ");
+                int i,j;
+                scanf("%d%d",&i,&j);
+                if(a[i-1][j-1]!='\0')
+                {
+                    printf("\nThis place is taken. Try again...\n");
+                    continue;
+                }
+                a[i-1][j-1]='X';
+                x=false;
+                cnt++;
+            }
+            else
+            {
+                printf("Player O's turn: \n");
+                printf("Enter Row and Column no: ");
+                int i,j;
+                scanf("%d%d",&i,&j);
+                if(a[i-1][j-1]!='\0')
+                {
+                    printf("\nThis place is taken. Try again...\n");
+                    continue;
+                }
+                a[i-1][j-1]='O';
+                x=true;
+                cnt++;
+            }
+        }
+    }
+    return 0;
+}
